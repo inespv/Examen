@@ -1,0 +1,29 @@
+{% extends "base.njk" %}
+
+{% block name %}Referees | Nuevo
+{% endblock %}
+
+{% block contenido %}
+
+	<h1>Inserción de nuevo referee</h1>
+
+	{% if errores.general %}
+		<p class="alert alert-danger">{{ errores.general }}</p>
+	{% endif %}
+
+	<form action="/referees" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label for="name">Name:</label>
+			{% if errores.name %}
+				<p class="text-danger">{{ errores.name }}</p>
+			{% endif %}
+			<input type="text" class="form-control" name="name" placeholder="Name del referee..." value="{{ datos.name }}">
+		</div>
+		<div class="form-group">
+			<label for="license Number">licenseNumber:</label>
+			<input type="text" class="form-control" name="licenseNumber" placeholder="licenseNumber del referee..." value="{{ datos.licenseNumber }}">
+		</div>
+		<button type="submit" class="btn btn-primary">Enviar</button>
+	</form>
+
+{% endblock %}

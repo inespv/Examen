@@ -1,0 +1,51 @@
+{% extends "base.njk" %}
+{% block content %}
+	<h1>Página de árbitros</h1>
+
+	<a href="/referees/new">
+		<button type="submit" class="btn btn bg-primary">Crear árbitro</button>
+	</a>
+
+	<div class="content-container">
+		<div class="page-header">
+			<h1>Listado de Referees</h1>
+
+			<a href="/referees">
+				<button type="submit" class="btn btn">Volver</button>
+			</a>
+		</a>
+	</div>
+
+	<div class="table-card">
+		{% if referees and referees.length > 0 %}
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Referee</th>
+						<th>Acciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for referee in referees %}
+						<tr>
+							<td>
+								<p class="referee-name">{{ referee.name }}</p>
+							</td>
+							<td class="action-buttons">
+								<a class="btn btn-primary" href="/referees/{{ referee.name }}/edit">Editar</a>
+								<form style="display:inline" action="/referees/{{ referee.id }}" method="post">
+									<input type="hidden" name="_method" value="delete"/>
+									<button type="submit" class="btn btn-danger" onclick="return confirm('¿Borrar referee?')">Borrar</button>
+								</form>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			<div class="empty-state">
+				<h3>No se encontraron Referees</h3>
+			</div>
+		{% endif %}
+	</div>
+</div>{% endblock %}
