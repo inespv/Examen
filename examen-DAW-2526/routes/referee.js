@@ -43,13 +43,36 @@ router.post('/new', async (req, res) => {
     try {
         const referee = await referee.findById(req.params.id);
 
-        if(licenseNumber)
+        if (licenseNumber)
 
-        if (referee) {
-            res.render('referees', { referee: referee });
-        } else {
-            res.render('error', { error: error.message });
+            if (referee) {
+                res.render('referees', { referee: referee });
+            } else {
+                res.render('error', { error: error.message });
+            }
+    } catch (e) {
+        res.render('error', { error: e.message });
+    }
+});
+
+// Borrado de Árbitro
+
+router.delete("/:id", async (req, res) => {
+    try {
+        const activeReferee = await Match.findOne({
+            "match.Referee": req.params.id,
+            "match.active": true,
+        });
+
+        if (activeReferee) {
+            return res.render('error', { error: 'error' });
         }
+        const deletedReferee = await Referee.findByIdAndDelete(req.params.id);
+
+        if (!deletedReferee) {
+            res.render('error', { error: 'error' });
+        }
+        return res.render('referees_list', { referee: deletedReferee });
     } catch (e) {
         res.render('error', { error: e.message });
     }
